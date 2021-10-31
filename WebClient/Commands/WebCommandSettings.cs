@@ -9,6 +9,7 @@ namespace WebClient.Commands
         public string Url { get; set; }
 
         [CommandOption("--Method | -m | -M")]
+        [Description("The HTTP verb to use: Get, Post, Put, Patch, Delete")]
         [DefaultValue("Get")]
         public string Method { get; set; }
     }
