@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using WebClient.Commands;
 using WebClient.Configurators;
+using WebClient.Handlers;
 using WebClient.Services;
 
 var services = new ServiceCollection();
-services.AddSingleton<IWebService, WebService>();
+services.AddSingleton<IWebService, WebHandler>();
 var registrar = new TypeRegistrar(services);
 
 var app = new CommandApp(registrar);
