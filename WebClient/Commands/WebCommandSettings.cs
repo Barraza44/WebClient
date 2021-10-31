@@ -12,5 +12,9 @@ namespace WebClient.Commands
         [Description("The HTTP verb to use: Get, Post, Put, Patch, Delete")]
         [DefaultValue("Get")]
         public string Method { get; set; }
+
+        [CommandOption("--Body | -b | -B")]
+        [Description("Body to send on Post, Put requests")]
+        public string Body { get; set; }
     }
 }

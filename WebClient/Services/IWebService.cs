@@ -6,6 +6,6 @@ namespace WebClient.Services
     {
         public Task<string> GetAsync(string url);
 
-        public void PostAsync(string url, string body);
+        public Task<string> PostAsync(string url, string body);
     }
 }

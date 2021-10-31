@@ -21,7 +21,12 @@ namespace WebClient.Commands
         {
             try
             {
-                var response = await _webService.GetAsync(settings.Url);
+                var response = settings.Method switch
+                {
+                    "Get" => await _webService.GetAsync(settings.Url),
+                    "Post" => await _webService.PostAsync(settings.Url, settings.Body),
+                    _ => throw new InvalidOperationException("Unrecognized HTTP method")
+                };
                 AnsiConsole.WriteLine($"{response}");
             }
             catch (Exception e)
