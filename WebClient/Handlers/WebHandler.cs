@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Spectre.Console;
@@ -19,6 +20,13 @@ namespace WebClient.Handlers
         {
             var content = new StringContent(body);
             var responseMessage = await _client.PostAsync(url, content);
+            return await responseMessage.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> PostAsJsonAsync(string url, string body)
+        {
+            var content = JsonContent.Create(body);
+            var responseMessage = await _client.PostAsJsonAsync(url, content);
             return await responseMessage.Content.ReadAsStringAsync();
         }
     }
