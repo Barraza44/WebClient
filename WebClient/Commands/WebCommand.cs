@@ -23,12 +23,7 @@ namespace WebClient.Commands
         {
             try
             {
-                var response = settings.Method switch
-                {
-                    "Get" => await _webService.GetAsync(settings.Url),
-                    "Post" => await _webService.PostAsync(settings.Url, settings.Body),
-                    _ => throw new InvalidOperationException("Unrecognized HTTP method")
-                };
+                var response = await NetSwitch(settings);
                 if (!string.IsNullOrEmpty(settings.Output))
                 {
                     await _fileService.SaveAsync(settings.Output, response);
@@ -38,11 +33,35 @@ namespace WebClient.Commands
             }
             catch (Exception e)
             {
-                AnsiConsole.MarkupLine($"[red]{e.Message}[/]");
+                AnsiConsole.WriteLine(e.Message);
                 return -99;
             }
 
             return 0;
+        }
+
+        private async Task<string> NetSwitch(WebCommandSettings settings)
+        {
+            var inputFileData = "";
+            var fileType = "";
+            if (!string.IsNullOrEmpty(settings.Input))
+            {
+                (inputFileData, fileType) = await _fileService.LoadAsync(settings.Input);
+            }
+
+            return settings.Method switch
+            {
+                "Get" => await _webService.GetAsync(settings.Url),
+
+                "Post" when (!string.IsNullOrEmpty(inputFileData)) && fileType == ".json" => await _webService
+                    .PostAsJsonAsync(settings.Url, inputFileData),
+
+                "Post" when (!string.IsNullOrEmpty(inputFileData)) => await _webService.PostAsync(settings.Url,
+                    inputFileData),
+
+                "Post" => await _webService.PostAsync(settings.Url, settings.Body),
+                _ => throw new InvalidOperationException("Unrecognized HTTP method")
+            };
         }
     }
 }
