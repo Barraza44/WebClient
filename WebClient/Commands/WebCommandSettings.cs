@@ -16,5 +16,9 @@ namespace WebClient.Commands
         [CommandOption("--Body | -b | -B")]
         [Description("Body to send on Post, Put requests")]
         public string Body { get; set; }
+        
+        [CommandOption("--Output | -o | -O")]
+        [Description("File on which the HTTP response will be saved")]
+        public string Output { get; set; }
     }
 }
