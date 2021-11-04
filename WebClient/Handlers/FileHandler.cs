@@ -15,9 +15,14 @@ namespace WebClient.Handlers
             await stream.CopyToAsync(fs);
         }
 
-        public Task LoadAsync(string path)
+        public async Task<(string, string)> LoadAsync(string path)
         {
-            throw new System.NotImplementedException();
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"File {path} not found; no such file or directory");
+            var fileType = new FileInfo(path).Extension;
+            await using var fs = new FileStream(path, FileMode.Open);
+            var reader = new StreamReader(fs);
+            return (await reader.ReadToEndAsync(), fileType);
         }
     }
 }

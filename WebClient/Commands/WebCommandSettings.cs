@@ -20,5 +20,9 @@ namespace WebClient.Commands
         [CommandOption("--Output | -o | -O")]
         [Description("File on which the HTTP response will be saved")]
         public string Output { get; set; }
+
+        [CommandOption("--Input | -i | -I")]
+        [Description("Read a file to be sent as request body")]
+        public string Input { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace WebClient.Services
     {
         public Task SaveAsync(string path, string data);
 
-        public Task LoadAsync(string path);
+        public Task<(string, string)> LoadAsync(string path);
     }
 }
