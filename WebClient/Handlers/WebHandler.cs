@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,19 @@ namespace WebClient.Handlers
 {
     public class WebHandler : IWebService
     {
+        private readonly IPrintService _printService;
         private readonly HttpClient _client = new();
-        
+
+        public WebHandler(IPrintService printService)
+        {
+            _printService = printService;
+        }
+
         public async Task<string> GetAsync(string url)
         {
-            return await _client.GetStringAsync(url);
+            var data = await _client.GetStreamAsync(url);
+            await _printService.PrintDataProgress(data);
+            return await new StreamReader(data).ReadToEndAsync();
         }
 
         public async Task<string> PostAsync(string url, string body)

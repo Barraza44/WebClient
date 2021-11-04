@@ -12,11 +12,13 @@ namespace WebClient.Commands
     {
         private readonly IWebService _webService;
         private readonly IFileService _fileService;
+        private readonly IPrintService _printService;
 
-        public WebCommand(IWebService webService, IFileService fileService)
+        public WebCommand(IWebService webService, IFileService fileService, IPrintService printService)
         {
             _webService = webService;
             _fileService = fileService;
+            _printService = printService;
         }
 
         public override async Task<int> ExecuteAsync(CommandContext context, WebCommandSettings settings)
@@ -29,11 +31,11 @@ namespace WebClient.Commands
                     await _fileService.SaveAsync(settings.Output, response);
                 }
 
-                AnsiConsole.WriteLine($"{response}");
+                _printService.PrintData(response);
             }
             catch (Exception e)
             {
-                AnsiConsole.WriteLine(e.Message);
+                _printService.PrintError(e);
                 return -99;
             }
 
