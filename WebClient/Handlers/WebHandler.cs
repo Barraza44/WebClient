@@ -10,19 +10,12 @@ namespace WebClient.Handlers
 {
     public class WebHandler : IWebService
     {
-        private readonly IPrintService _printService;
         private readonly HttpClient _client = new();
-
-        public WebHandler(IPrintService printService)
-        {
-            _printService = printService;
-        }
+        
 
         public async Task<string> GetAsync(string url)
         {
-            var data = await _client.GetStreamAsync(url);
-            await _printService.PrintDataProgress(data);
-            return await new StreamReader(data).ReadToEndAsync();
+            return await _client.GetStringAsync(url);
         }
 
         public async Task<string> PostAsync(string url, string body)

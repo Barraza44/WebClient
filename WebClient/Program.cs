@@ -9,7 +9,6 @@ using WebClient.Services;
 var services = new ServiceCollection();
 services.AddSingleton<IWebService, WebHandler>();
 services.AddSingleton<IFileService, FileHandler>();
-services.AddSingleton<IPrintService, PrintHandler>();
 var registrar = new TypeRegistrar(services);
 
 var app = new CommandApp(registrar);

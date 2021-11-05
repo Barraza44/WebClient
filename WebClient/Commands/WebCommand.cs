@@ -12,30 +12,34 @@ namespace WebClient.Commands
     {
         private readonly IWebService _webService;
         private readonly IFileService _fileService;
-        private readonly IPrintService _printService;
 
-        public WebCommand(IWebService webService, IFileService fileService, IPrintService printService)
+        public WebCommand(IWebService webService, IFileService fileService)
         {
             _webService = webService;
             _fileService = fileService;
-            _printService = printService;
         }
 
         public override async Task<int> ExecuteAsync(CommandContext context, WebCommandSettings settings)
         {
             try
             {
-                var response = await NetSwitch(settings);
-                if (!string.IsNullOrEmpty(settings.Output))
-                {
-                    await _fileService.SaveAsync(settings.Output, response);
-                }
-
-                _printService.PrintData(response);
+                var response = "";
+                await AnsiConsole.Status()
+                    .StartAsync("[darkturquoise]Fetching...[/]", async ctx =>
+                    {
+                        ctx.Spinner(Spinner.Known.Dots4);
+                        response = await NetSwitch(settings);
+                        if (!string.IsNullOrEmpty(settings.Output))
+                        {
+                            await _fileService.SaveAsync(settings.Output, response);
+                            AnsiConsole.MarkupLine($"[gold3_1]Response saved on {settings.Output}![/]");
+                        }
+                    });
+                AnsiConsole.WriteLine(response);
             }
             catch (Exception e)
             {
-                _printService.PrintError(e);
+                AnsiConsole.MarkupLine($"[red]{e.Message}[/]");
                 return -99;
             }
 
