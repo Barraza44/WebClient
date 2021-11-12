@@ -5,7 +5,7 @@ using WebClient.Services;
 
 namespace WebClient.Handlers
 {
-    public class FileHandler : IFileService 
+    public class FileHandler : IFileService
     {
         public async Task SaveAsync(string path, string data)
         {
@@ -23,6 +23,12 @@ namespace WebClient.Handlers
             await using var fs = new FileStream(path, FileMode.Open);
             var reader = new StreamReader(fs);
             return (await reader.ReadToEndAsync(), fileType);
+        }
+
+        public async Task SaveAsync(string path, byte[] data)
+        {
+            await using var fs = new FileStream(path, FileMode.CreateNew);
+            await fs.WriteAsync(data);
         }
     }
 }

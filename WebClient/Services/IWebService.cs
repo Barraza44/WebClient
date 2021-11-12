@@ -9,5 +9,7 @@ namespace WebClient.Services
         public Task<string> PostAsync(string url, string body);
 
         public Task<string> PostAsJsonAsync(string url, string body);
+
+        public Task<byte[]> GetAsByteArrayAsync(string url);
     }
 }

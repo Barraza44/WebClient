@@ -31,5 +31,10 @@ namespace WebClient.Handlers
             var responseMessage = await _client.PostAsync(url, content);
             return await responseMessage.Content.ReadAsStringAsync();
         }
+
+        public async Task<byte[]> GetAsByteArrayAsync(string url)
+        {
+            return await _client.GetByteArrayAsync(url);
+        }
     }
 }
