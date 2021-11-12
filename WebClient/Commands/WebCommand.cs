@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -19,6 +20,13 @@ namespace WebClient.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, WebCommandSettings settings)
         {
+            if (Path.GetExtension(new Uri(settings.Url).AbsolutePath).Contains("."))
+            {
+                AnsiConsole.MarkupLine("[red]Warning:[/] Outputting binary data can cause issues with your terminal. " +
+                                       "Use the [blue]download[/] command to save it as a file.");
+                return 0;
+            }
+
             try
             {
                 await AnsiConsole.Status()
