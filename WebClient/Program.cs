@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using WebClient.Commands;
 using WebClient.Configurators;
@@ -15,9 +14,13 @@ var app = new CommandApp(registrar);
 app.Configure(config =>
 {
     config.AddCommand<WebCommand>("web")
-        .WithDescription("Connect to a web server to send and receive data")
+        .WithDescription("Connect to a web server to send and receive string-based data")
         .WithExample(new[] { "web", "https://www.microsoft.com" })
         .WithExample(new[] { "web", "https://www.microsoft.com", "--Method", "Get" });
+    config.AddCommand<DownloadCommand>("download")
+        .WithAlias("down")
+        .WithDescription("Connect to a web server to receive binary-based data")
+        .WithExample(new[] { "download", "https://www.contoso.com/static/img1.png" });
 #if DEBUG
     config.PropagateExceptions();
     config.ValidateExamples();
