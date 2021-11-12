@@ -23,19 +23,18 @@ namespace WebClient.Commands
         {
             try
             {
-                var response = "";
                 await AnsiConsole.Status()
                     .StartAsync("[darkturquoise]Fetching...[/]", async ctx =>
                     {
                         ctx.Spinner(Spinner.Known.Dots4);
-                        response = await NetSwitch(settings);
+                        var response = await NetSwitch(settings);
+                        AnsiConsole.WriteLine(response);
                         if (!string.IsNullOrEmpty(settings.Output))
                         {
                             await _fileService.SaveAsync(settings.Output, response);
                             AnsiConsole.MarkupLine($"[gold3_1]Response saved on {settings.Output}![/]");
                         }
                     });
-                AnsiConsole.WriteLine(response);
             }
             catch (Exception e)
             {
