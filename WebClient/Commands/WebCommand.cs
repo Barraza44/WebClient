@@ -51,6 +51,12 @@ namespace WebClient.Commands
             return 0;
         }
 
+        /// <summary>
+        /// Selects a HTTP method based on the command flags
+        /// </summary>
+        /// <param name="settings">The object containing the command flags and options</param>
+        /// <returns>The appropriate HTTP method depending on the used flags</returns>
+        /// <exception cref="InvalidOperationException">If an unsupported or invalid HTTP method is provided</exception>
         private async Task<string> NetSwitch(WebCommandSettings settings)
         {
             var inputFileData = "";
