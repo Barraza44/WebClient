@@ -30,12 +30,9 @@ namespace WebClient.Configurators
 
         public void RegisterLazy(Type service, Func<object> func)
         {
-            if (func is null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            if (func is null) throw new ArgumentNullException(nameof(func));
 
-            _builder.AddSingleton(service, (provider) => func());
+            _builder.AddSingleton(service, provider => func());
         }
     }
 }

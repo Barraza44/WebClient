@@ -5,8 +5,7 @@ namespace WebClient.Commands
 {
     public class WebCommandSettings : CommandSettings
     {
-        [CommandArgument(0, "<Url>")]
-        public string Url { get; set; }
+        [CommandArgument(0, "<Url>")] public string Url { get; set; }
 
         [CommandOption("--Method | -m | -M")]
         [Description("The HTTP verb to use: Get, Post, Put, Patch, Delete")]
@@ -16,7 +15,7 @@ namespace WebClient.Commands
         [CommandOption("--Body | -b | -B")]
         [Description("Body to send on Post, Put requests")]
         public string Body { get; set; }
-        
+
         [CommandOption("--Output | -o | -O")]
         [Description("File on which the HTTP response will be saved")]
         public string Output { get; set; }

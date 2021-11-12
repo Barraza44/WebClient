@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -39,7 +37,7 @@ namespace WebClient.Commands
             catch (Exception e)
             {
                 AnsiConsole.MarkupLine($"[red]{e.Message}[/]");
-                return -99;
+                return 1;
             }
 
             return 0;
@@ -50,18 +48,16 @@ namespace WebClient.Commands
             var inputFileData = "";
             var fileType = "";
             if (!string.IsNullOrEmpty(settings.Input))
-            {
                 (inputFileData, fileType) = await _fileService.LoadAsync(settings.Input);
-            }
 
             return settings.Method switch
             {
                 "Get" => await _webService.GetAsync(settings.Url),
 
-                "Post" when (!string.IsNullOrEmpty(inputFileData)) && fileType == ".json" => await _webService
+                "Post" when !string.IsNullOrEmpty(inputFileData) && fileType == ".json" => await _webService
                     .PostAsJsonAsync(settings.Url, inputFileData),
 
-                "Post" when (!string.IsNullOrEmpty(inputFileData)) => await _webService.PostAsync(settings.Url,
+                "Post" when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
                     inputFileData),
 
                 "Post" => await _webService.PostAsync(settings.Url, settings.Body),

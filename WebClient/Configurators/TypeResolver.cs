@@ -20,10 +20,7 @@ namespace WebClient.Configurators
 
         public void Dispose()
         {
-            if (_provider is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
+            if (_provider is IDisposable disposable) disposable.Dispose();
         }
     }
 }
