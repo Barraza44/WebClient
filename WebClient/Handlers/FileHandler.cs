@@ -11,8 +11,7 @@ namespace WebClient.Handlers
         {
             await using var fs = new FileStream(path, FileMode.OpenOrCreate);
             var byteData = Encoding.UTF8.GetBytes(data);
-            var stream = new MemoryStream(byteData);
-            await stream.CopyToAsync(fs);
+            await fs.WriteAsync(byteData);
         }
 
         public async Task<(string, string)> LoadAsync(string path)
