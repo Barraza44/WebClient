@@ -66,19 +66,19 @@ namespace WebClient.Commands
 
             return settings.Method switch
             {
-                "Get" => await _webService.GetAsync(settings.Url),
+                HttpMethod.Get => await _webService.GetAsync(settings.Url),
 
-                "Post" when !string.IsNullOrEmpty(inputFileData) && fileType == ".json" => await _webService
+                HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) && fileType == ".json" => await _webService
                     .PostAsJsonAsync(settings.Url, inputFileData),
 
-                "Post" when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
+                HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
                     inputFileData),
 
-                "Post" when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body),
+                HttpMethod.Post when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body),
                 
-                "Post" when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body),
+                HttpMethod.Post when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body),
                 
-                "Post" => await _webService.PostAsync(settings.Url, settings.Body),
+                HttpMethod.Post => await _webService.PostAsync(settings.Url, settings.Body),
                 _ => throw new InvalidOperationException("Unrecognized HTTP method")
             };
         }

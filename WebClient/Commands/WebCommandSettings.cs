@@ -12,7 +12,7 @@ namespace WebClient.Commands
         [CommandOption("--Method | -m | -M")]
         [Description("The HTTP verb to use: Get, Post, Put, Patch, Delete. It defaults to Get.")]
         [DefaultValue("Get")]
-        public string Method { get; set; }
+        public HttpMethod Method { get; set; }
 
         [CommandOption("--Body | -b | -B")]
         [Description("Body to send on Post, Put requests.")]
