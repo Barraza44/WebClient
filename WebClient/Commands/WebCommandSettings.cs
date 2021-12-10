@@ -11,7 +11,7 @@ namespace WebClient.Commands
 
         [CommandOption("--Method | -m | -M")]
         [Description("The HTTP verb to use: Get, Post, Put, Patch, Delete. It defaults to Get.")]
-        [DefaultValue("Get")]
+        [DefaultValue(HttpMethod.Get)]
         public HttpMethod Method { get; set; }
 
         [CommandOption("--Body | -b | -B")]
