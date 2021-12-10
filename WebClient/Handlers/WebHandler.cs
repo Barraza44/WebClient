@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebClient.Services;
@@ -27,6 +28,24 @@ namespace WebClient.Handlers
             var content = JsonContent.Create(body);
             var responseMessage = await _client.PostAsync(url, content);
             return await responseMessage.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> PostAsFormAsync(string url, string body)
+        {
+            var data = body.Split("&");
+            var keysAndValues = new Dictionary<string, string>();
+            foreach (var collection in data)
+            {
+                var entries = collection.Split("=");
+                for (int i = 1; i < entries.Length; i++)
+                {
+                    keysAndValues.Add(entries[i - 1], entries[i]);
+                }
+            }
+
+            var content = new FormUrlEncodedContent(keysAndValues);
+            var response = await _client.PostAsync(url, content);
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<byte[]> GetAsByteArrayAsync(string url)

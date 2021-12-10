@@ -16,7 +16,8 @@ app.Configure(config =>
     config.AddCommand<WebCommand>("web")
         .WithDescription("Connect to a web server to send and receive string-based data")
         .WithExample(new[] { "web", "https://www.microsoft.com" })
-        .WithExample(new[] { "web", "https://www.microsoft.com", "--Method", "Get" });
+        .WithExample(new[] { "web", "https://www.microsoft.com", "--Method", "Get" })
+        .WithExample(new[] { "web", "https://www.microsoft.com", "--Method", "Post", "--Form", "--Body", "name=Alex age=1" });
     config.AddCommand<DownloadCommand>("download")
         .WithAlias("down")
         .WithDescription("Connect to a web server to receive binary-based data")

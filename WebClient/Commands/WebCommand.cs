@@ -74,6 +74,10 @@ namespace WebClient.Commands
                 "Post" when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
                     inputFileData),
 
+                "Post" when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body),
+                
+                "Post" when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body),
+                
                 "Post" => await _webService.PostAsync(settings.Url, settings.Body),
                 _ => throw new InvalidOperationException("Unrecognized HTTP method")
             };

@@ -29,6 +29,8 @@ namespace WebClient.Services
         /// <returns>A string containing the response body</returns>
         public Task<string> PostAsJsonAsync(string url, string body);
 
+        public Task<string> PostAsFormAsync(string url, string body);
+
         /// <summary>
         /// Sends a GET request to a specified URL and returns the response as a byte array asynchronously
         /// </summary>
