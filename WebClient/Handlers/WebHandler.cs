@@ -11,27 +11,31 @@ namespace WebClient.Handlers
         private readonly HttpClient _client = new();
 
 
-        public async Task<string> GetAsync(string url)
+        public async Task<string> GetAsync(string url, string headers)
         {
+            if (headers is not null) AddHeaders(_client, headers);
             return await _client.GetStringAsync(url);
         }
 
-        public async Task<string> PostAsync(string url, string body)
+        public async Task<string> PostAsync(string url, string body, string headers)
         {
+            if (headers is not null) AddHeaders(_client, headers);
             var content = new StringContent(body);
             var responseMessage = await _client.PostAsync(url, content);
             return await responseMessage.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> PostAsJsonAsync(string url, string body)
+        public async Task<string> PostAsJsonAsync(string url, string body, string headers)
         {
+            if (headers is not null) AddHeaders(_client, headers);
             var content = JsonContent.Create(body);
             var responseMessage = await _client.PostAsync(url, content);
             return await responseMessage.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> PostAsFormAsync(string url, string body)
+        public async Task<string> PostAsFormAsync(string url, string body, string headers)
         {
+            if (headers is not null) AddHeaders(_client, headers);
             var data = body.Split("&");
             var keysAndValues = new Dictionary<string, string>();
             foreach (var collection in data)
@@ -51,6 +55,19 @@ namespace WebClient.Handlers
         public async Task<byte[]> GetAsByteArrayAsync(string url)
         {
             return await _client.GetByteArrayAsync(url);
+        }
+
+        private static void AddHeaders(HttpClient client, string headers)
+        {
+            var headerList = headers.Split(", ");
+            foreach (var header in headerList)
+            {
+                var pairs = header.Split(": ");
+                for (int j = 1; j < pairs.Length; j++)
+                {
+                    client.DefaultRequestHeaders.Add(pairs[j - 1], pairs[j]);
+                }
+            }
         }
     }
 }

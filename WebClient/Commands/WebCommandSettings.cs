@@ -27,11 +27,15 @@ namespace WebClient.Commands
         public string Input { get; set; }
         
         [CommandOption("--Form | -f | -F")]
-        [Description(@"Sends the body as form data (application/x-www-form-urlencoded). Data must be of form 'key1=value&key2=value...' ")]
+        [Description(@"Sends the body as form data and sets Content-Type to application/x-www-form-urlencoded. Data must be of form 'key1=value&key2=value...' ")]
         public bool IsForm { get; set; }
         
         [CommandOption("--Json | -J| -j")]
-        [Description("Sends the body as JSON (application/json). This flag is not needed when the input flag is set to a json file.")]
+        [Description("Sends the body as JSON and sets Content-Type to application/json. This flag is not needed when the input flag is set to a json file.")]
         public bool IsJson { get; set; }
+
+        [CommandOption("--Headers | -H | -h ")]
+        [Description("Set the request headers. Use as: \"Header1: Value, Header2: Value...\" ")]
+        public string Headers { get; set; }
     }
 }

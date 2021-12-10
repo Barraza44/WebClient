@@ -45,6 +45,7 @@ namespace WebClient.Commands
             catch (Exception e)
             {
                 AnsiConsole.MarkupLine($"[red]{e.Message}[/]");
+                if (e.InnerException is not null) AnsiConsole.MarkupLine($"[red]{e.InnerException.Message}[/]");
                 return 1;
             }
 
@@ -66,19 +67,19 @@ namespace WebClient.Commands
 
             return settings.Method switch
             {
-                HttpMethod.Get => await _webService.GetAsync(settings.Url),
+                HttpMethod.Get => await _webService.GetAsync(settings.Url, settings.Headers),
 
                 HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) && fileType == ".json" => await _webService
-                    .PostAsJsonAsync(settings.Url, inputFileData),
+                    .PostAsJsonAsync(settings.Url, inputFileData, settings.Headers),
 
                 HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
-                    inputFileData),
+                    inputFileData, settings.Headers),
 
-                HttpMethod.Post when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body),
+                HttpMethod.Post when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body, settings.Headers),
                 
-                HttpMethod.Post when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body),
+                HttpMethod.Post when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body, settings.Headers),
                 
-                HttpMethod.Post => await _webService.PostAsync(settings.Url, settings.Body),
+                HttpMethod.Post => await _webService.PostAsync(settings.Url, settings.Body, settings.Headers),
                 _ => throw new InvalidOperationException("Unrecognized HTTP method")
             };
         }
