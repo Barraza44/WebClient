@@ -76,3 +76,8 @@ fabric.properties
 # Compiled Binaries
 /WebClient/bin
 /WebClient/obj
+
+/.vs
+WebClient/.dockerignore
+WebClient/Dockerfile
+WebClient/index.html
