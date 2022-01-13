@@ -69,17 +69,45 @@ namespace WebClient.Commands
             {
                 HttpMethod.Get => await _webService.GetAsync(settings.Url, settings.Headers),
 
-                HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) && fileType == ".json" => await _webService
-                    .PostAsJsonAsync(settings.Url, inputFileData, settings.Headers),
+                HttpMethod.Post when !string.IsNullOrWhiteSpace(inputFileData) && fileType == ".json" => await
+                    _webService
+                        .PostAsJsonAsync(settings.Url, inputFileData, settings.Headers),
 
-                HttpMethod.Post when !string.IsNullOrEmpty(inputFileData) => await _webService.PostAsync(settings.Url,
+                HttpMethod.Post when !string.IsNullOrWhiteSpace(inputFileData) => await _webService.PostAsync(
+                    settings.Url,
                     inputFileData, settings.Headers),
 
-                HttpMethod.Post when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body, settings.Headers),
-                
-                HttpMethod.Post when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body, settings.Headers),
-                
+                HttpMethod.Post when settings.IsJson => await _webService.PostAsJsonAsync(settings.Url, settings.Body,
+                    settings.Headers),
+
+                HttpMethod.Post when settings.IsForm => await _webService.PostAsFormAsync(settings.Url, settings.Body,
+                    settings.Headers),
+
                 HttpMethod.Post => await _webService.PostAsync(settings.Url, settings.Body, settings.Headers),
+
+                HttpMethod.Put when !string.IsNullOrWhiteSpace(inputFileData) && fileType == ".json" =>
+                    await _webService.PutAsJsonAsync(settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Put when !string.IsNullOrWhiteSpace(inputFileData) && settings.IsForm =>
+                    await _webService.PutAsFormAsync(settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Put when !string.IsNullOrWhiteSpace(inputFileData) => await _webService.PutAsFormAsync(
+                    settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Put => await _webService.PutAsync(settings.Url, settings.Body, settings.Headers),
+
+                HttpMethod.Patch when !string.IsNullOrWhiteSpace(inputFileData) && fileType == ".json" =>
+                    await _webService.PatchAsJsonAsync(settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Patch when !string.IsNullOrWhiteSpace(inputFileData) && settings.IsForm =>
+                    await _webService.PatchAsFormAsync(settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Patch when !string.IsNullOrWhiteSpace(inputFileData) => await _webService.PatchAsync(
+                    settings.Url, inputFileData, settings.Headers),
+                
+                HttpMethod.Patch => await _webService.PatchAsync(settings.Url, settings.Body, settings.Headers),
+
+                HttpMethod.Delete => await _webService.DeleteAsync(settings.Url, settings.Headers),
                 _ => throw new InvalidOperationException("Unrecognized HTTP method")
             };
         }

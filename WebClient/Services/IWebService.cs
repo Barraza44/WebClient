@@ -41,6 +41,18 @@ namespace WebClient.Services
         /// <returns>A string containing the response body</returns>
         public Task<string> PostAsFormAsync(string url, string body, string headers);
 
+        public Task<string> PutAsync(string url, string body, string headers);
+        public Task<string> PutAsJsonAsync(string url, string body, string headers);
+        public Task<string> PutAsFormAsync(string url, string body, string headers);
+
+        public Task<string> PatchAsync(string url, string body, string headers);
+        public Task<string> PatchAsJsonAsync(string url, string body, string headers);
+        public Task<string> PatchAsFormAsync(string url, string body, string headers);
+
+        public Task<string> DeleteAsync(string url, string headers);
+
+
+
         /// <summary>
         /// Sends a GET request to a specified URL and returns the response as a byte array asynchronously
         /// </summary>

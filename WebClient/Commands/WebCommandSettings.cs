@@ -15,7 +15,7 @@ namespace WebClient.Commands
         public HttpMethod Method { get; set; }
 
         [CommandOption("--Body | -b | -B")]
-        [Description("Body to send on Post, Put requests.")]
+        [Description("Body to send on Post, Put and Patch requests.")]
         public string Body { get; set; }
 
         [CommandOption("--Output | -o | -O")]
@@ -23,7 +23,7 @@ namespace WebClient.Commands
         public string Output { get; set; }
 
         [CommandOption("--Input | -i | -I")]
-        [Description("Read a file to be sent as request body on Post and Put requests.")]
+        [Description("Read a file to be sent as request body on Post, Put and Patch requests.")]
         public string Input { get; set; }
         
         [CommandOption("--Form | -f | -F")]
